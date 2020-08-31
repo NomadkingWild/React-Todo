@@ -1,19 +1,17 @@
 import React from 'react';
-
-
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 import './components/Todo.css';
 
-const todo = [
+const todoData = [
   {
-    task: 'Get Dress',
-    id: 1528817077286,
+    name: 'Get Dress',
+    id: 12345,
     completed: false
   },
   {
-    task: 'Brush Teeth',
-    id: 1528817084358,
+    name: 'Brush Teeth',
+    id: 12346,
     completed: false
   }
 ];
@@ -21,20 +19,20 @@ class App extends React.Component {
   constructor(){
     super();
     this.state ={
-      todo:todo,
-      toggleCompleted: () => {},
+      todo: todoData,
+      toggleItem: () => {},
     };
   }
-  toggleCompleted =(clickedTaskId) =>{
+  toggleItem =(id) =>{
     this.setState({
-      todo: this.state.todo.map((task)=>{
-        if(task.id === clickedTaskId){
+      todo: this.state.todo.map((item)=>{
+        if(item.id === id){
           return{
-            ...task,
-            completed: !task.completed
+            ...item,
+            completed: !item.completed
           };
         }else{
-          return task;
+          return item;
         }
       })
     });
@@ -42,13 +40,21 @@ class App extends React.Component {
   addTask =(taskName)=>{
     const newTask={
       name: taskName,
-      id: new Date(),
+      id: Date.now(),
       completed:false
     };
+    
     this.setState({
       todo:[...this.state.todo, newTask]
     });
   };
+
+  clearCompleted = (e) => {
+    e.preventDefault();
+    this.setState({
+      todo: this.state.todo.filter(item => !item.completed)
+    });
+  }; 
 
   render(){
     return(
@@ -59,8 +65,11 @@ class App extends React.Component {
         </div>
         <TodoList
           todo={this.state.todo}
-          toggleCompleted={this.toggleCompleted}
+          toggleItem={this.toggleItem}
           />
+          <button className='clearer' onClick={this.clearCompleted}>
+            Clear Completed
+            </button>
       </div>
     )
   }

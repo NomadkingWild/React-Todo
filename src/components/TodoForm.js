@@ -4,12 +4,12 @@ class TodoForm extends React.Component {
     constructor(){
         super();
         this.state ={
-            task: ""
+            todo: ""
         };
     }
     handleChanges = (e) =>{
         this.setState({
-            task: e.target.value
+            todo: e.target.value
         });
     }
     
